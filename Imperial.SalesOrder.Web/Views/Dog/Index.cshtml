@@ -1,0 +1,29 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutVisitor.cshtml";
+}
+
+<section class="section-appstart-header">
+    <div class="row">
+        <div class="col">
+            <div class="page-header">
+                <h2>Dog Image</h2>
+            </div>
+        </div>
+    </div>
+</section>
+<br/>
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        @if (!string.IsNullOrEmpty(ViewBag.ImageUrl))
+        {
+            <img src="@ViewBag.ImageUrl" alt="Dog Image" class="img-fluid" />
+        }
+        else
+        {
+            <div class="alert alert-danger text-center">Failed to fetch dog image from the API.</div>
+        }
+    </div>
+</div>
+

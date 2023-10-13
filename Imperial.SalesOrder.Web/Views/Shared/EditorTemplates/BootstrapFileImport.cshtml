@@ -1,0 +1,39 @@
+﻿@using Imperial.SalesOrder.Web.Helpers
+@model object
+@{
+    var htmlAttributes = new RouteValueDictionary();
+
+    if (ViewBag.id != null)
+    {
+        htmlAttributes.Add("id", ViewBag.id);
+    }
+
+    htmlAttributes.Add("type", "file");
+
+    if (ViewBag.ReadOnly != null && ViewBag.ReadOnly == true)
+    {
+        htmlAttributes.Add("disabled", true);
+    }
+
+    string labelClass = (ViewBag.LabelClass != null) ? ViewBag.LabelClass : "col-form-label col-sm-3 offset-xl-1";
+    string controlClass = (ViewBag.ControlClass != null) ? ViewBag.ControlClass : "form-control";
+    controlClass += Html.ValidationErrorFor(m => m, " is-invalid");
+
+    htmlAttributes.Add("class", (ViewBag.@class != null) ? ViewBag.@class : controlClass);
+
+}
+
+@*Produce the actual output for the Control*@
+<div class="row mb-2">
+    <label class="@labelClass">@ViewData.ModelMetadata.DisplayName</label>
+
+    <div class="col-sm-9 col-xl-7">
+        <div class="custom-file">
+            @Html.TextBox("", ViewData.TemplateInfo.FormattedModelValue, htmlAttributes)
+            @*@Html.LabelFor(m => m, "- Select File -", new { @class = "form-label" })*@
+            <div class="invalid-feedback">
+                @Html.ValidationMessageFor(m => m)
+            </div>
+        </div>
+    </div>
+</div>

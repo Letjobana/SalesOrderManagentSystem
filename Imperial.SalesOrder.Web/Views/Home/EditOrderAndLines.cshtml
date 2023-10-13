@@ -1,0 +1,123 @@
+﻿@model Imperial.SalesOrder.DataModel.Order
+@{
+    ViewBag.Title = "EditOrderAndLines";
+    Layout = "~/Views/Shared/_LayoutVisitor.cshtml";
+    var successMessage = TempData["SuccessMessage"] as string;
+    var validationErrors = Session["ValidationErrors"] as List<string>;
+}
+
+<section class="section-appstart-header">
+    <div class="row">
+        <div class="col">
+            <div class="page-header">
+                <h2>Update Order</h2>
+            </div>
+        </div>
+    </div>
+</section>
+<section class="container section-register-body">
+    <br />
+    @if (!string.IsNullOrEmpty(successMessage))
+    {
+        <div class="alert alert-success">
+            @successMessage
+        </div>
+    }
+
+    @if (validationErrors != null && validationErrors.Count > 0)
+    {
+        <div class="alert alert-danger">
+            <ul>
+                @foreach (var error in validationErrors)
+                {
+                    <li>@error</li>
+                }
+            </ul>
+        </div>
+    }
+
+    @using (Html.BeginForm("EditOrderAndLines", "Home", FormMethod.Post, new { @class = "form-horizontal" }))
+    {
+
+        @Html.AntiForgeryToken()
+        <h4 class="register-heading">Update Order</h4>
+        <hr />
+        <div class="row mb-3">
+            <div class="col">
+                @Html.EditorFor(m => m.OrderNumber, "TextFloatingLabel")
+            </div>
+            <div class="col">
+                @Html.EditorFor(m => m.OrderType, "TextFloatingLabel")
+            </div>
+        </div>
+        <div class="row mb-4">
+            <div class="col">
+                @Html.EditorFor(m => m.OrderStatus, "TextFloatingLabel")
+            </div>
+            <div class="col">
+                @Html.EditorFor(m => m.CustomerName, "TextFloatingLabel")
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col">
+                @Html.EditorFor(m => m.CreateDate, "TextFloatingLabel")
+            </div>
+            <div class="col">
+                @Html.HiddenFor(m => m.OrderId)
+            </div>
+        </div>
+        <h4 class="register-heading">Order Lines</h4>
+        <div class="row">
+            <table class="table">
+                <!-- Add fields for editing order lines -->
+                <thead>
+                    <tr>
+                        <th>Product Code</th>
+                        <th>Product Type</th>
+                        <th>Product Cost Price</th>
+                        <th>Product Sales Price</th>
+                        <th>Quantity</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (var i = 0; i < Model.OrderLines.Count; i++)
+                    {
+                        <tr>
+                            <td>
+                                @Html.EditorFor(modelItem => Model.OrderLines[i].ProductCode, "TextFloatingLabel")
+                            </td>
+                            <td>
+                                @Html.EditorFor(modelItem => Model.OrderLines[i].ProductType, "TextFloatingLabel")
+                            </td>
+                            <td>
+                                @Html.EditorFor(modelItem => Model.OrderLines[i].ProductCostPrice, "TextFloatingLabel")
+                            </td>
+                            <td>
+                                @Html.EditorFor(modelItem => Model.OrderLines[i].ProductSalesPrice, "TextFloatingLabel")
+                            </td>
+                            <td>
+                                @Html.EditorFor(modelItem => Model.OrderLines[i].Quantity, "TextFloatingLabel")
+                            </td>
+                            <td>
+                                @Html.HiddenFor(modelItem => Model.OrderLines[i].Id)
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <br />
+        <div class="row mb-3">
+            <div class="row mb-3">
+                <div class="col">
+                    <input type="submit" class="btn-grad btn-grad-submit" value="Update Order" />
+                </div>
+                <div class="col">
+                    <a class="btn-grad btn-grad-submit" href="@Url.Action("Index", "Home")">Back to Orders</a>
+                </div>
+            </div>
+
+        </div>
+    }
+</section>
+

@@ -1,0 +1,43 @@
+﻿@using Imperial.SalesOrder.Web.Helpers
+@model DateTime?
+@{
+    var htmlAttributes = new RouteValueDictionary();
+
+    if (ViewBag.@type != null)
+    {
+        htmlAttributes.Add("type", ViewBag.@type);
+    }
+
+    if (ViewBag.ReadOnly != null && ViewBag.ReadOnly == true)
+    {
+        htmlAttributes.Add("disabled", true);
+    }
+
+    htmlAttributes.Add("placeholder", (ViewBag.placeholder != null) ? ViewBag.placeholder : DateTime.Now.ToString("yyyy-MM-dd"));
+
+    string labelClass = (ViewBag.LabelClass != null) ? ViewBag.LabelClass : "col-form-label col-sm-3 offset-xl-1";
+    string controlClass = (ViewBag.ControlClass != null) ? ViewBag.ControlClass : "form-control datepicker";
+    controlClass += Html.ValidationErrorFor(m => m, " is-invalid");
+
+    htmlAttributes.Add("class", (ViewBag.@class != null) ? ViewBag.@class : controlClass);
+}
+
+@*Produce the actual output for the Control*@
+<div class="row mb-2">
+    @Html.LabelFor(m => m, new { @class = labelClass })
+
+    <div class="col-sm-9 col-xl-7">
+        @if (Model == null || Model.Value.CompareTo(new DateTime(1, 1, 1)) == 0)
+        {
+            @Html.TextBox("", null, htmlAttributes)
+        }
+        else
+        {
+            @Html.TextBox("", this.Model.Value.ToString("yyyy-MM-dd"), htmlAttributes)
+        }
+    </div>
+
+    <div class="invalid-feedback offset-md-2">
+        @Html.ValidationMessageFor(m => m)
+    </div>
+</div>

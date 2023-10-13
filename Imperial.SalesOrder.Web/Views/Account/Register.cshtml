@@ -1,0 +1,64 @@
+﻿@model Imperial.SalesOrder.Web.Models.RegisterViewModel
+@{
+    ViewBag.Title = "Register";
+    Layout = "~/Views/Shared/_LayoutVisitor.cshtml";
+}
+
+<div class="register-container">
+    <section class="section-register-logo">
+        <div class="row">
+            <div class="col">
+                <img src="" class="login-logo"/>
+            </div>
+        </div>
+    </section>
+
+    <section id="registerForm" class="container section-register-body">
+        @using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+        {
+            @Html.AntiForgeryToken()
+            <h4 class="register-heading">Create a new account</h4>
+            <hr />
+            <div class="row mb-3">
+                <div class="col">
+                    @Html.EditorFor(m => m.Email, "TextFloatingLabel")
+                </div>
+                <div class="col">
+                    @Html.EditorFor(m => m.PhoneNumber, "TextFloatingLabel")
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col">
+                    @Html.EditorFor(m => m.FirstName, "TextFloatingLabel")
+                </div>
+                <div class="col">
+                    @Html.EditorFor(m => m.Surname, "TextFloatingLabel")
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col">
+                    @Html.EditorFor(m => m.Password, "TextFloatingLabel", new { @type = "password" })
+                </div>
+                <div class="col">
+                    @Html.EditorFor(m => m.ConfirmPassword, "TextFloatingLabel", new { @type = "password" })
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <div class="row mb-3">
+                    <div class="col">
+                        <input type="submit" class="btn-grad btn-grad-submit" value="Register" />
+                    </div>
+                    <div class="col">
+                        @Html.ActionLink("Cancel", "Login", "Account", null, new { @class = "btn-grad btn-grad-alert" })
+                    </div>
+                </div>
+
+            </div>
+        }
+    </section>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

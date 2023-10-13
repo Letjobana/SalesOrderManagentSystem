@@ -1,0 +1,179 @@
+﻿.login-container {
+    max-width: 40rem;
+    margin: auto auto;
+    display: flex;
+    flex-direction: column
+}
+.login-logo {
+    width: 100%;
+    height: auto;
+    margin: 2rem auto;
+    border-radius: 50%;
+}
+.btn-grad {
+    margin: 0.5rem;
+    padding: 0.5rem 0rem;
+    text-align: center;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: .5s;
+    background-size: 200% auto;
+    color: #fff;
+    box-shadow: 0 0 20px #eee;
+    border-radius: 10px;
+    display: block;
+    border-width: 0;
+    font-size: 1.2rem;
+    width: 10rem
+}
+
+.btn-grad-submit {
+    /*background-image: linear-gradient(to right, #314755 0%, #26a0da 51%, #314755 100%)*/
+    background-color: #0093A6;
+    margin-right: 10px;
+}
+.section-login-body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center
+}
+
+.section-login-body .col {
+    max-width: 350px;
+    margin: 0 auto
+}
+
+.section-login-body input {
+    max-width: 100%
+}
+.register-container {
+    max-width: 60rem;
+    margin: auto auto;
+    display: flex;
+    flex-direction: column
+}
+.section-register-body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center
+}
+
+.section-register-body .col {
+    max-width: 350px;
+    margin: 0 auto
+}
+.register-heading {
+    text-transform: uppercase;
+    color: #2b779d
+}
+.btn-grad-alert {
+    background-image: linear-gradient(to right, #EB3349 0%, #F45C43 51%, #EB3349 100%)
+}
+
+.page-header {
+    width: 100%;
+    /* border: 1px solid #00B5C6;*/
+    background-color: #00B5C6;
+    background-image: linear-gradient(160deg, #0093A6 0%, #0093A6 99%);
+    color: white;
+    text-transform: uppercase;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 0rem;
+    padding: 0.5rem 1rem;
+    height: 80px;
+}
+.btn-Lead {
+    background-image: linear-gradient(160deg, #0093A6 0%, #0093A6 99%);
+    color: white !important;
+    font-weight: 700;
+    margin-right: 10px;
+    margin-bottom: 20px;
+    margin-top: 20px;
+}
+
+.btn-Lead:hover {
+    color: white !important;
+}
+
+.card {
+    position: relative;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    min-width: 0;
+    word-wrap: break-word;
+    background-color: #fff;
+    background-clip: border-box;
+    border: 1px solid rgba(0,0,0,.125);
+    border-radius: 0.25rem;
+}
+.validation-error {
+    color: red;
+}
+.table-mv {
+    border-collapse: collapse;
+    width: 100%;
+    box-shadow: 0 0 20px rgba(0,0,0,0.15)
+}
+
+    .table-mv th, .table-mv td {
+        padding: 0.25rem 0.5rem
+    }
+
+    .table-mv thead th {
+        text-transform: uppercase
+    }
+
+.table-mv-header-large {
+    font-size: 1.2rem
+}
+
+.table-mv-title {
+    background-color: #1C5976;
+    color: white;
+    text-transform: uppercase;
+    margin: 0rem auto;
+    padding: 0.5rem
+}
+
+.table-mv-grey thead th {
+    background-color: #868e96;
+    color: white;
+    height: 2.5rem
+}
+
+.table-mv-grey tr {
+    border-bottom: 1px solid #000;
+    background-color: #ced4da
+}
+
+    .table-mv-grey tr:nth-child(odd) {
+        background-color: #e9ecef
+    }
+
+    .table-mv-grey tr:hover {
+        background-color: #000;
+        color: white
+    }
+
+.table-mv-blue thead th {
+    background-color: #4dabf7;
+    color: white;
+    height: 2.5rem
+}
+
+.table-mv-blue tr {
+    border-bottom: 1px solid #0b7285;
+    background-color: #a5d8ff
+}
+
+    .table-mv-blue tr:nth-child(odd) {
+        background-color: #e7f5ff
+    }
+
+    .table-mv-blue tr:hover {
+        background-color: #339af0;
+        color: white
+    }

@@ -1,0 +1,140 @@
+﻿@model Imperial.SalesOrder.DataModel.Order
+@{
+    ViewBag.Title = "AddOrder";
+    Layout = "~/Views/Shared/_LayoutVisitor.cshtml";
+    var successMessage = TempData["SuccessMessage"] as string;
+    var validationErrors = Session["ValidationErrors"] as List<string>;
+}
+<section class="section-appstart-header">
+    <div class="row">
+        <div class="col">
+            <div class="page-header">
+                <h2>Add New Order</h2>
+            </div>
+        </div>
+    </div>
+</section>
+<section class="container section-register-body">
+    <br />
+    @if (!string.IsNullOrEmpty(successMessage))
+    {
+        <div class="alert alert-success">
+            @successMessage
+        </div>
+    }
+
+    @if (validationErrors != null && validationErrors.Count > 0)
+    {
+        <div class="alert alert-danger">
+            <ul>
+                @foreach (var error in validationErrors)
+                {
+                    <li>@error</li>
+                }
+            </ul>
+        </div>
+    }
+
+    @using (Html.BeginForm("AddOrder", "Home", FormMethod.Post, new { @class = "form-horizontal" }))
+    {
+
+        @Html.AntiForgeryToken()
+        <h4 class="register-heading">Add New Order</h4>
+        <hr />
+        <div class="row mb-3">
+            <div class="col">
+                @Html.EditorFor(m => m.OrderNumber, "TextFloatingLabel")
+            </div>
+            <div class="col">
+                @Html.EditorFor(m => m.Id_OrderType, "SelectFloatingLabel", new { SelectList = ViewBag.OrderType })
+            </div>
+        </div>
+        <div class="row mb-4">
+            <div class="col">
+                @Html.EditorFor(m => m.Id_OrderStatus, "SelectFloatingLabel", new { SelectList = ViewBag.OrderStatus })
+            </div>
+            <div class="col">
+                @Html.EditorFor(m => m.CustomerName, "TextFloatingLabel")
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col">
+                @Html.EditorFor(m => m.CreateDate, "DatePicker")
+            </div>
+            <div class="col">
+
+            </div>
+        </div>
+        <h4 class="register-heading">Order Lines</h4>
+        <div class="row">
+            <div class="col">
+                <button type="button" id="addOrderLine" class="btn btn-primary">Add OrderLine</button>
+            </div>
+        </div>
+        <br />
+        <div class="row mb-3">
+            <div class="row mb-3">
+                <div class="col">
+                    <input type="submit" class="btn-grad btn-grad-submit" value="Save Order" />
+                </div>
+                <div class="col">
+                    <a class="btn-grad btn-grad-submit" href="@Url.Action("Index", "Home")">Back to Orders</a>
+                </div>
+            </div>
+
+        </div>
+    }
+</section>
+@section Scripts {
+    <script type="text/javascript">
+    $(document).ready(function () {
+        var orderLineIndex = @((Model.OrderLines != null) ? Model.OrderLines.Count : 0);
+
+        $("#addOrderLine").click(function () {
+            var orderLineHtml =
+                '<div class="row mb-3">' +
+                '    <div class="col">' +
+                '        <input type="text" class="form-control" name="OrderLines[' + orderLineIndex + '].ProductCode" placeholder="Product Code" />' +
+                '        <span class="field-validation-valid text-danger" data-valmsg-for="OrderLines[' + orderLineIndex + '].ProductCode" data-valmsg-replace="true"></span>' +
+                '    </div>' +
+                '    <div class="col">' +
+                '        <select class="form-control" name="OrderLines[' + orderLineIndex + '].ProductType"><option value="0">-- Select Product --</option><option value="Apparel">Apparel</option><option value="Equipment">Equipment</option><option value="Motor">Motor</option></select>' +
+                '        <span class="field-validation-valid text-danger" data-valmsg-for="OrderLines[' + orderLineIndex + '].ProductType" data-valmsg-replace="true"></span>' +
+                '    </div>' +
+                '    <div class="col">' +
+                '        <input type="text" class="form-control" name="OrderLines[' + orderLineIndex + '].ProductCostPrice" placeholder="Cost Price" />' +
+                '        <span class="field-validation-valid text-danger" data-valmsg-for="OrderLines[' + orderLineIndex + '].ProductCostPrice" data-valmsg-replace="true"></span>' +
+                '    </div>' +
+                '    <div class="col">' +
+                '        <input type="text" class="form-control" name="OrderLines[' + orderLineIndex + '].ProductSalesPrice" placeholder="Sales Price" />' +
+                '        <span class="field-validation-valid text-danger" data-valmsg-for="OrderLines[' + orderLineIndex + '].ProductSalesPrice" data-valmsg-replace="true"></span>' +
+                '    </div>' +
+                '    <div class="col">' +
+                '        <input type="text" class="form-control" name="OrderLines[' + orderLineIndex + '].Quantity" placeholder="Quantity" />' +
+                '        <span class="field-validation-valid text-danger" data-valmsg-for="OrderLines[' + orderLineIndex + '].Quantity" data-valmsg-replace="true"></span>' +
+                '    </div>' +
+                '    <div class="col">' +
+                '        <!-- Add a Remove button for each order line -->' +
+                '        <button type="button" class="btn btn-danger removeOrderLine">Remove</button>' +
+                '    </div>' +
+                '</div>';
+
+            $(".row:last").before(orderLineHtml);
+
+            
+            $(".removeOrderLine:last").click(function () {
+                $(this).closest(".row").remove();
+            });
+
+            orderLineIndex++;
+        });
+
+        $(".removeOrderLine").click(function () {
+            $(this).closest(".row").remove();
+        });
+    });
+    </script>
+
+}
+
+

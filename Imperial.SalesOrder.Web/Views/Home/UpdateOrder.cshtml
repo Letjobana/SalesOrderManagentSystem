@@ -1,0 +1,104 @@
+﻿@model Imperial.SalesOrder.DataModel.Order
+@{
+    ViewBag.Title = "UpdateOrder";
+    Layout = "~/Views/Shared/_LayoutVisitor.cshtml";
+}
+
+<section class="section-appstart-header">
+    <div class="row">
+        <div class="col">
+            <div class="page-header">
+                <h2>Update Order</h2>
+            </div>
+        </div>
+    </div>
+</section>
+<br />
+<div class="input-group ml-auto justify-content-end">
+    @using (Html.BeginForm("UpdateOrder", "Home", FormMethod.Get, new { @class = "form-horizontal" }))
+    {
+        <div class="SearchSession" style="display: inline-block;">
+            @Html.TextBoxFor(m => m.SearchItem, new { @class = "form-control", placeholder = "Search by OrderNumber" })
+        </div>
+        <div style="display: inline-block;">
+            <button type="submit" class="btn-grad btn-grad-small btn-grad-submit">Search</button>
+        </div>
+    }
+</div>
+<div id="orderDetails" style="display: none;">
+    <section class="container section-register-body">
+
+        @using (Html.BeginForm("AddOrder", "Home", FormMethod.Post, new { @class = "form-horizontal" }))
+        {
+
+            @Html.AntiForgeryToken()
+            <h4 class="register-heading">Add New Order</h4>
+            <hr />
+            <div class="row mb-3">
+                <div class="col">
+                    @Html.EditorFor(m => m.OrderNumber, "TextFloatingLabel")
+                </div>
+                <div class="col">
+                    @Html.EditorFor(m => m.OrderType, "TextFloatingLabel")
+                </div>
+            </div>
+            <div class="row mb-4">
+                <div class="col">
+                    @Html.EditorFor(m => m.OrderStatus, "TextFloatingLabel")
+                </div>
+                <div class="col">
+                    @Html.EditorFor(m => m.CustomerName, "TextFloatingLabel")
+                </div>
+            </div>
+            <h4 class="register-heading">Order Lines</h4>
+            <br />
+
+            <div class="row mb-3">
+                <div class="row mb-3">
+                    <div class="col">
+                        <input type="submit" class="btn-grad btn-grad-submit" value="Save Order" />
+                    </div>
+                    <div class="col">
+                        <a class="btn-grad btn-grad-submit" href="@Url.Action("Index", "Home")">Back to Orders</a>
+                    </div>
+                </div>
+
+            </div>
+        }
+    </section>
+</div>
+
+<div id="orderNotFoundMessage" style="display: none;">
+    Order not found.
+</div>
+@section Scripts {
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("form").submit(function (e) {
+                e.preventDefault(); // Prevent the default form submission
+
+                var formData = $(this).serialize(); // Serialize the form data
+
+                $.ajax({
+                    url: '@Url.Action("UpdateOrder")',
+                    method: "POST",
+                    data: formData,
+                    success: function (data) {
+                        if (data.exists) {
+                            // Populate the order details div with the retrieved data
+                            $("#orderDetails").html(data.orderDetails);
+                            $("#orderDetails").show();
+                            $("#orderNotFoundMessage").hide();
+                        } else {
+                            // Display a message indicating that the order does not exist
+                            $("#orderDetails").hide();
+                            $("#orderNotFoundMessage").show();
+                        }
+                    }
+                });
+            });
+        });
+    </script>
+
+}
+

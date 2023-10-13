@@ -1,0 +1,13 @@
+﻿@model Imperial.SalesOrder.DataModel.OrderLine
+
+<tr>
+    <td>@Html.EditorFor(m => m.ProductCode, "TextFloatingLabel")</td>
+    <td>@Html.EditorFor(m => m.ProductType, "SelectFloatingLabel", new { SelectList = ViewBag.ProductType })</td>
+    <td>@Html.EditorFor(m => m.ProductCostPrice, "TextFloatingLabel")</td>
+    <td>@Html.EditorFor(m => m.ProductSalesPrice, "TextFloatingLabel")</td>
+    <td>@Html.EditorFor(m => m.Quantity, "TextFloatingLabel")</td>
+    <td>
+        <a href="#" class="btn-grad btn-grad-alert delete-item">Remove</a>
+    </td>
+</tr>
+

@@ -1,0 +1,98 @@
+﻿@model IEnumerable<Imperial.SalesOrder.DataModel.OrderLine>
+@{
+    bool isAdmin = User.IsInRole("Administrator");
+}
+
+<!-- _OrderLines.cshtml -->
+<div class="row mt-3">
+    <div class="col-md-12">
+        <div id="pnlResults" class="card border-secondary">
+            <div class="card border-secondary">
+                <div class="card-body">
+                    <h2 class="text-center table-mv-title">Order Lines</h2>
+                    <br />
+                    <div class="input-group mb-3 justify-content-end">
+                        <input id="mySearchInput" type="search" class="form-control form-control-sm" placeholder="Search..." aria-label="Search">
+                        @*<span class="input-group-text">Search:</span>*@
+                    </div>
+
+                    <table class="table-mv table-mv-blue" id="partialTable">
+                        <thead class="table-mv-header-large">
+                            <tr>
+                                <th>Product Code</th>
+                                <th>Product Type</th>
+                                <th>Product Cost Price</th>
+                                <th>Product Sales Price</th>
+                                <th>Quantity</th>
+                                @if (isAdmin)
+                                {
+                                    <th>Actions</th>
+                                }
+                                </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var orderLine in Model)
+                            {
+                                <tr>
+                                    <td>@orderLine.ProductCode</td>
+                                    <td>@orderLine.ProductType</td>
+                                    <td>@orderLine.ProductCostPrice</td>
+                                    <td>@orderLine.ProductSalesPrice</td>
+                                    <td>@orderLine.Quantity</td>
+                                    @if (isAdmin)
+                                    {
+                                        <td>
+                                            <a href="@Url.Action("EditOrderAndLines", "Home", new { orderId = orderLine.Id })" class="btn btn-primary">Update Order</a>
+                                            <button class="btn btn-danger delete-order-line" data-order-line-id="@orderLine.Id">Delete Order</button>
+                                        </td>
+                                    }
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<script>
+    $(document).ready(function () {
+        $('#mySearchInput').on('keyup', function () {
+            var value = $(this).val().toLowerCase();
+            $('#partialTable tbody tr').filter(function () {
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+            });
+        });
+    });
+    $(document).ready(function () {
+        $('.delete-order-line').click(function () {
+            var orderLineId = $(this).data('order-line-id');
+
+            if (confirm("Are you sure you want to delete this order line?")) {
+
+                $.ajax({
+                    url: "/Home/DeleteOrderLine",
+                    type: "POST",
+                    data: { orderLineId: orderLineId },
+                    success: function (result) {
+                        if (result.success) {
+
+                            $('#partialTable tbody tr[data-order-line-id="' + orderLineId + '"]').remove();
+                        } else {
+
+                            alert("Error: " + result.message);
+                        }
+                    },
+                    error: function (error) {
+                        // Handle any AJAX error here.
+                        console.error("AJAX error:", error);
+                    }
+                });
+            }
+        });
+    });
+</script>

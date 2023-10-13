@@ -1,0 +1,26 @@
+﻿@using Imperial.SalesOrder.Web.Helpers
+@model DateTime?
+@{
+    string error = "" + Html.ValidationErrorFor(m => m, " is-invalid");
+
+    var htmlAttributes = new RouteValueDictionary();
+    htmlAttributes.Add("placeholder", (ViewBag.placeholder != null) ? ViewBag.placeholder : DateTime.Now.ToString("yyyy-MM-dd"));
+    htmlAttributes.Add("class", (ViewBag.@class != null) ? ViewBag.@class + error : "form-control" + error);
+    htmlAttributes.Add("type", "date");
+}
+
+<div class="form-floating">
+    @if (Model == null || Model.Value.CompareTo(new DateTime(1, 1, 1)) == 0)
+    {
+        @Html.TextBox("", null, htmlAttributes)
+    }
+    else
+    {
+        @Html.TextBox("", this.Model.Value.ToString("yyyy-MM-dd"), htmlAttributes)
+    }
+
+    @Html.LabelFor(m => m)
+</div>
+<div class="input-validation-error-message">
+    @Html.ValidationMessageFor(m => m)
+</div>

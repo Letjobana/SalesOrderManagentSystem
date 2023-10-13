@@ -1,0 +1,77 @@
+﻿@model Imperial.SalesOrder.Web.Models.LoginViewModel
+@{
+    ViewBag.Title = "Log in";
+    Layout = "~/Views/Shared/_LayoutVisitor.cshtml";
+}
+
+<div class="login-container">
+
+    <section class="section-login-logo">
+        <div class="row">
+            <div class="col">
+                <img src="~/Content/images/salesorder.image.jpeg" class="login-logo"/>
+            </div>
+        </div>
+    </section>
+
+    @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+    {
+        @Html.AntiForgeryToken()
+        <section class="section-login-body">
+            <div class="row mb-3">
+                <div class="col d-flex flex-column justify-content-center">
+                    @Html.EditorFor(m => m.Email, "TextFloatingLabel")
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col">
+                    @Html.EditorFor(m => m.Password, "TextFloatingLabel", new { @type = "password" })
+                </div>
+            </div>
+            @if (!ViewData.ModelState.IsValid)
+            {
+                <div class="row mb-3">
+                    <div class="col">
+                        <div class="alert alert-danger">Invalid Username and/or Password.</div>
+                    </div>
+                </div>
+            }
+            <div class="row">
+                <div class="col d-flex justify-content-center">
+                    <button type="submit" class="btn-grad btn-grad-submit">Log in</button>
+                </div>
+            </div>
+            <div class="row mt-2">
+                <div class="col d-flex justify-content-center">
+                    <div class="text-muted">
+                        New User? Click @Html.ActionLink("here", "Register", "Account") to register.
+                    </div>
+                </div>
+            </div>
+        </section>
+    }
+
+</div>
+
+@section Scripts {
+    <script>
+        let currentTheme = "default";
+
+        function changeTheme() {
+            if (currentTheme === "default") {
+                currentTheme = "alternate";
+            }
+            else {
+                currentTheme = "default";
+            };
+
+            const ss = `/Content/css/blc/${currentTheme}/imperial.css`;
+
+            document.querySelectorAll("link").forEach(m => {
+                if (m.href.includes("imperial")) {
+                    m.href = ss;
+                }
+            });
+        }
+    </script>
+}

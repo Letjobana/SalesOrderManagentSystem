@@ -1,0 +1,38 @@
+﻿@using Imperial.SalesOrder.Web.Helpers
+@model bool
+@{
+    string error = "" + Html.ValidationErrorFor(m => m, " is-invalid");
+
+    var htmlAttributes = new RouteValueDictionary();
+    htmlAttributes.Add("class", (ViewBag.@class != null) ? ViewBag.@class + error : "form-check-input" + error);
+
+    if (ViewBag.id != null)
+    {
+        htmlAttributes.Add("id", ViewBag.id);
+    }
+
+    if (ViewBag.ReadOnly != null && ViewBag.ReadOnly == true)
+    {
+        htmlAttributes.Add("disabled", true);
+    }
+
+    if (ViewBag.OnClick != null)
+    {
+        htmlAttributes.Add("onclick", ViewBag.OnClick);
+    }
+
+    //controlClass += Html.ValidationErrorFor(m => m, " is-invalid");
+}
+
+@*Produce the actual output for the Control*@
+<div class="d-flex">
+    <div class="col-10 col-lg-9">
+        @Html.LabelFor(m => m, new { @class = "form-check-label" })
+    </div>
+    <div class="col-1 offset-1">
+        @Html.CheckBox("", this.Model, htmlAttributes)
+    </div>
+</div>
+<div class="input-validation-error-message">
+    @Html.ValidationMessageFor(m => m)
+</div>
